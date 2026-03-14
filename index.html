@@ -302,7 +302,7 @@
     <div id="sidebar-header">
       <div class="eyebrow">🫐 Forager's Atlas</div>
       <h1>Wild <span>Berry</span><br>Map USA</h1>
-      <p>Explore verified sightings of wild berries across the United States. Data sourced from iNaturalist.</p>
+      <p>Explore verified sightings of wild berries across the United States. Data sourced from iNaturalist — a crowd-sourced, community-verified database. Sightings are research-grade but location accuracy varies by observer.</p>
     </div>
 
     <div id="controls">
@@ -370,10 +370,18 @@ let currentSeason = "all";
 let markerLayer, heatLayer;
 
 // ── MAP INIT ───────────────────────────────────────────────────────────────────
+const US_BOUNDS = L.latLngBounds(
+  L.latLng(24.4, -124.8),   // southwest corner
+  L.latLng(49.4, -66.9)     // northeast corner
+);
+
 const map = L.map("map", {
   center: [39.5, -98.35],
   zoom: 4,
   zoomControl: true,
+  maxBounds: US_BOUNDS,
+  maxBoundsViscosity: 1.0,   // hard stop at borders
+  minZoom: 4,                // can't zoom out past full US view
 });
 
 L.tileLayer("https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png", {
